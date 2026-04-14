@@ -9,7 +9,7 @@
 ## Overview
 - **Date:** 2026-04-14
 - **Priority:** P1
-- **Status:** pending (blocked by Phase 01)
+- **Status:** complete
 - **Effort:** ~3h
 - **Goal:** `graphify-ts-out/GRAPH_REPORT.md` + `graph.json` generated with top-10 god nodes table
 

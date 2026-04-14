@@ -1,4 +1,4 @@
-// CLI entry point: collect → cache check → extract → cache save → emit extraction.json
+// CLI entry point: collect → cache check → extract → build graph → report
 import { Command } from 'commander';
 import { Project } from 'ts-morph';
 import { writeFileSync, mkdirSync, existsSync } from 'fs';
@@ -6,6 +6,9 @@ import { resolve } from 'path';
 import { collectFiles } from './collect.js';
 import { checkCache, saveCache } from './cache.js';
 import { extractFile } from './extract.js';
+import { buildGraph } from './build.js';
+import { analyzeBasic } from './analyze.js';
+import { renderReport } from './report.js';
 import type { ExtractionResult } from './types.js';
 
 const OUT_DIR = '../.graphify-ts-out';
@@ -57,6 +60,8 @@ program
       `(${cacheHits} from cache, ${files.length - cacheHits} fresh)`,
     );
 
+    if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true });
+
     // 4. Merge and emit extraction.json
     const merged = {
       root,
@@ -66,14 +71,26 @@ program
       per_file: allResults,
     };
 
-    if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true });
-    const outPath = `${OUT_DIR}/extraction.json`;
-    writeFileSync(outPath, JSON.stringify(merged, null, 2), 'utf8');
-
+    const extractionPath = `${OUT_DIR}/extraction.json`;
+    writeFileSync(extractionPath, JSON.stringify(merged, null, 2), 'utf8');
     console.log(
       `[graphify-ts] Nodes: ${merged.nodes.length}  Edges: ${merged.edges.length}`,
     );
-    console.log(`[graphify-ts] Output: ${outPath}`);
+    console.log(`[graphify-ts] Extraction: ${extractionPath}`);
+
+    // 5. Build graph, analyze, write graph.json + GRAPH_REPORT.md
+    const graph = buildGraph(allResults);
+    const analysis = analyzeBasic(graph);
+    const report = renderReport(graph, analysis);
+
+    const graphPath = `${OUT_DIR}/graph.json`;
+    const reportPath = `${OUT_DIR}/GRAPH_REPORT.md`;
+    writeFileSync(graphPath, JSON.stringify(graph.export(), null, 2), 'utf8');
+    writeFileSync(reportPath, report, 'utf8');
+
+    console.log(`[graphify-ts] Graph: ${graph.order} nodes, ${graph.size} edges`);
+    console.log(`[graphify-ts] graph.json:      ${graphPath}`);
+    console.log(`[graphify-ts] GRAPH_REPORT.md: ${reportPath}`);
   });
 
 program.parse();
