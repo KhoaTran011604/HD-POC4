@@ -17,7 +17,7 @@ import { llmExtract } from './llm-extract.js';
 import { renderReportHtml } from './report-html.js';
 import type { ExtractionResult } from './types.js';
 
-const OUT_DIR = '../.graphify-ts-out';
+const OUT_DIR = 'graphify-ts-out';
 
 const program = new Command();
 

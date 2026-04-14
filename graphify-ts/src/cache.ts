@@ -4,7 +4,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import type { ExtractionResult } from './types.js';
 
-const CACHE_DIR = join('../.graphify-ts-out', 'cache');
+const CACHE_DIR = join('graphify-ts-out', 'cache');
 
 function ensureCacheDir(): void {
   if (!existsSync(CACHE_DIR)) {
