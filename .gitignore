@@ -1,0 +1,11 @@
+.claude
+__pycache__/
+*.pyc
+.venv/
+*.npy
+.env
+
+graphify/
+.graphify-ts-out/
+
+*/node_modules/*
