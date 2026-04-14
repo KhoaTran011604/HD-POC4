@@ -9,7 +9,7 @@
 ## Overview
 - **Date:** 2026-04-14
 - **Priority:** P1
-- **Status:** pending (blocked by Phase 02)
+- **Status:** complete
 - **Effort:** ~3h
 - **Goal:** GRAPH_REPORT.md enriched with Louvain communities + surprising cross-community connections + suggested questions
 
@@ -166,12 +166,12 @@ const questions = suggestQuestions(graph, communityMap);
 ```
 
 ## Todo List
-- [ ] Install `graphology-operators` (for `toUndirected`)
-- [ ] `cluster.ts` — louvain wrapper + communityLabel()
-- [ ] `analyze.ts` — add surprisingConnections() + suggestQuestions()
-- [ ] Update `report.ts` — Communities + Surprising Connections + Suggested Questions sections
-- [ ] Wire cluster into `cli.ts`
-- [ ] Test: communities > 1 on a multi-file project
+- [x] Install `graphology-operators` (for `toUndirected`)
+- [x] `cluster.ts` — louvain wrapper + communityLabel()
+- [x] `analyze.ts` — add surprisingConnections() + suggestQuestions()
+- [x] Update `report.ts` — Communities + Surprising Connections + Suggested Questions sections
+- [x] Wire cluster into `cli.ts`
+- [x] Test: communities > 1 on a multi-file project
 
 ## Success Criteria
 - Louvain produces ≥ 2 communities on a project with > 5 source files

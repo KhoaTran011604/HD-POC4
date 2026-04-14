@@ -7,7 +7,8 @@ import { collectFiles } from './collect.js';
 import { checkCache, saveCache } from './cache.js';
 import { extractFile } from './extract.js';
 import { buildGraph } from './build.js';
-import { analyzeBasic } from './analyze.js';
+import { analyzeBasic, surprisingConnections, suggestQuestions } from './analyze.js';
+import { cluster, buildCommunities } from './cluster.js';
 import { renderReport } from './report.js';
 import type { ExtractionResult } from './types.js';
 
@@ -78,10 +79,16 @@ program
     );
     console.log(`[graphify-ts] Extraction: ${extractionPath}`);
 
-    // 5. Build graph, analyze, write graph.json + GRAPH_REPORT.md
+    // 5. Build graph, cluster, analyze, write graph.json + GRAPH_REPORT.md
     const graph = buildGraph(allResults);
     const analysis = analyzeBasic(graph);
-    const report = renderReport(graph, analysis);
+    const communityMap = cluster(graph);
+    const communities = buildCommunities(graph, communityMap);
+    const surprises = surprisingConnections(graph, communityMap);
+    const questions = suggestQuestions(graph, communityMap);
+    const report = renderReport(graph, analysis, { communities, surprises, questions });
+
+    console.log(`[graphify-ts] Communities: ${communities.length}`);
 
     const graphPath = `${OUT_DIR}/graph.json`;
     const reportPath = `${OUT_DIR}/GRAPH_REPORT.md`;
