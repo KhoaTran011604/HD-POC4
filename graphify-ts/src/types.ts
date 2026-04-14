@@ -3,14 +3,15 @@
 export type NodeType = 'file' | 'class' | 'function' | 'method' | 'interface';
 
 export type EdgeRelation =
-  | 'imports'      // file imports another file/module
-  | 'contains'     // file/class contains a function/method/class
-  | 'method'       // class owns a method
-  | 'calls'        // function calls another function
-  | 'inherits'     // class extends another class
-  | 'implements'   // class implements an interface
+  | 'imports'        // file imports another file/module
+  | 'contains'       // file/class contains a function/method/class
+  | 'method'         // class owns a method
+  | 'calls'          // function calls another function
+  | 'inherits'       // class extends another class
+  | 'implements'     // class implements an interface
   | 'type_reference' // type/generic reference
-  | 'decorator';   // decorator applied to class/method
+  | 'decorator'      // decorator applied to class/method
+  | 'semantic_ref';  // INFERRED: semantic relationship from jsdoc/comments (LLM pass)
 
 export type Confidence = 'EXTRACTED' | 'INFERRED';
 

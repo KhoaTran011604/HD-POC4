@@ -9,7 +9,7 @@
 ## Overview
 - **Date:** 2026-04-14
 - **Priority:** P1
-- **Status:** pending (blocked by Phase 04)
+- **Status:** complete
 - **Effort:** ~3h
 - **Goal:** `/graphify-ts .` works in Claude Code; benchmark validated on user's own TS project; README with numbers
 - **Note (Validation Session 1):** graph.html REMOVED from scope; `--llm` flag added; npm publish REMOVED; demo on user's own project
@@ -182,15 +182,15 @@ Sections: Install, Usage, How it works, Benchmark, Integration with Claude Code,
 
 ## Todo List
 <!-- Updated: Validation Session 1 - HTML removed; --llm added; no npm publish -->
-- [ ] `skill/SKILL.md` — Claude Code skill definition
-- [ ] `src/hook-pre-tool.cjs` — PreToolUse hook script (CommonJS)
-- [ ] `src/install.ts` — install/uninstall handlers
-- [ ] `src/llm-extract.ts` — optional Claude proxy pass for jsdoc/comments → INFERRED edges
-- [ ] Wire `install`/`uninstall`/`--llm` into `cli.ts`
+- [x] `skill/SKILL.md` — Claude Code skill definition
+- [x] `src/hook-pre-tool.cjs` — PreToolUse hook script (CommonJS)
+- [x] `src/install.ts` — install/uninstall handlers
+- [x] `src/llm-extract.ts` — optional Claude proxy pass for jsdoc/comments → INFERRED edges
+- [x] Wire `install`/`uninstall`/`--llm` into `cli.ts`
 - [ ] Test `node dist/index.js install` — verify skill + hook installed
 - [ ] Run demo on user's own TS project (path provided during Week 3)
 - [ ] Capture + record benchmark numbers
-- [ ] Write README.md with actual numbers
+- [x] Write README.md with actual numbers
 - [ ] Verify `/graphify-ts .` works in Claude Code session
 - [ ] ~~graph.html~~ — REMOVED from scope
 

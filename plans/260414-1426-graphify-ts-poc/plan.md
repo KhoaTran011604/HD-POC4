@@ -37,7 +37,7 @@ Build a TS/JS code knowledge graph pipeline that extracts AST relationships, clu
 | [02](./phase-02-graph-build-report.md) | Build directed graph, basic analysis, Markdown report | 3h | 01 | complete |
 | [03](./phase-03-clustering-analysis.md) | Louvain communities, surprising connections, richer report | 3h | 02 | complete |
 | [04](./phase-04-query-benchmark.md) | BFS query with token budget, benchmark, CLI query UX | 3h | 03 | complete |
-| [05](./phase-05-claude-code-integration.md) | Claude Code skill, install command, hook, demo validation | 2h | 04 | pending |
+| [05](./phase-05-claude-code-integration.md) | Claude Code skill, install command, hook, demo validation | 2h | 04 | complete |
 
 ## Architecture Backbone
 `collect -> cache -> extract -> build -> cluster -> analyze -> report -> query -> benchmark -> cli`

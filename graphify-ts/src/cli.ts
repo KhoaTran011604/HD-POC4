@@ -1,7 +1,7 @@
 // CLI entry point: collect → cache check → extract → build graph → report
 import { Command } from 'commander';
 import { Project } from 'ts-morph';
-import { writeFileSync, mkdirSync, existsSync } from 'fs';
+import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'fs';
 import { resolve } from 'path';
 import { collectFiles } from './collect.js';
 import { checkCache, saveCache } from './cache.js';
@@ -12,19 +12,34 @@ import { cluster, buildCommunities } from './cluster.js';
 import { renderReport } from './report.js';
 import { query as queryGraph } from './query.js';
 import { benchmark, printBenchmark, appendBenchmark } from './benchmark.js';
+import { install, uninstall } from './install.js';
+import { llmExtract } from './llm-extract.js';
 import type { ExtractionResult } from './types.js';
 
 const OUT_DIR = '../.graphify-ts-out';
 
 const program = new Command();
 
+// install / uninstall subcommands
+program
+  .command('install')
+  .description('Install Claude Code skill + PreToolUse hook')
+  .action(() => install());
+
+program
+  .command('uninstall')
+  .description('Remove Claude Code skill + PreToolUse hook')
+  .action(() => uninstall());
+
+// default analyse command
 program
   .name('graphify-ts')
   .description('TypeScript/JS code knowledge graph extractor')
   .argument('[path]', 'root directory to analyse', '.')
   .option('--no-cache', 'skip reading cache (forces re-extraction)')
   .option('-q, --query <question>', 'query the graph for focused context')
-  .action(async (rootArg: string, opts: { cache: boolean; query?: string }) => {
+  .option('--llm', 'optional LLM pass: extract jsdoc/comment semantics as INFERRED edges')
+  .action(async (rootArg: string, opts: { cache: boolean; query?: string; llm?: boolean }) => {
     const root = resolve(rootArg);
     console.log(`[graphify-ts] Scanning: ${root}`);
 
@@ -66,7 +81,17 @@ program
 
     if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true });
 
-    // 4. Merge and emit extraction.json
+    // 4a. Optional: --llm pass — augment with INFERRED semantic edges before merging
+    if (opts.llm) {
+      console.log('[graphify-ts] Running LLM pass (--llm)...');
+      const inferredEdges = await llmExtract(allResults, (p) => readFileSync(p, 'utf8'));
+      // Inject inferred edges into a synthetic result so they flow through the normal path
+      if (inferredEdges.length > 0) {
+        allResults.push({ file: '__llm__', nodes: [], edges: inferredEdges });
+      }
+    }
+
+    // 4b. Merge and emit extraction.json
     const merged = {
       root,
       files: files.length,
