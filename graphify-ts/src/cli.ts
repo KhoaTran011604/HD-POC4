@@ -14,6 +14,7 @@ import { query as queryGraph } from './query.js';
 import { benchmark, printBenchmark, appendBenchmark } from './benchmark.js';
 import { install, uninstall } from './install.js';
 import { llmExtract } from './llm-extract.js';
+import { renderReportHtml } from './report-html.js';
 import type { ExtractionResult } from './types.js';
 
 const OUT_DIR = '../.graphify-ts-out';
@@ -24,12 +25,14 @@ const program = new Command();
 program
   .command('install')
   .description('Install Claude Code skill + PreToolUse hook')
-  .action(() => install());
+  .option('--local', 'install to ./.claude/ (project-level) instead of ~/.claude/ (global)')
+  .action((opts: { local?: boolean }) => install(opts.local ?? false));
 
 program
   .command('uninstall')
   .description('Remove Claude Code skill + PreToolUse hook')
-  .action(() => uninstall());
+  .option('--local', 'remove from ./.claude/ (project-level)')
+  .action((opts: { local?: boolean }) => uninstall(opts.local ?? false));
 
 // default analyse command
 program
@@ -120,12 +123,15 @@ program
 
     const graphPath = `${OUT_DIR}/graph.json`;
     const reportPath = `${OUT_DIR}/GRAPH_REPORT.md`;
+    const reportHtmlPath = `${OUT_DIR}/GRAPH_REPORT.html`;
     writeFileSync(graphPath, JSON.stringify(graph.export(), null, 2), 'utf8');
     writeFileSync(reportPath, report, 'utf8');
+    writeFileSync(reportHtmlPath, renderReportHtml(graph, analysis, { communities, surprises, questions }), 'utf8');
 
     console.log(`[graphify-ts] Graph: ${graph.order} nodes, ${graph.size} edges`);
-    console.log(`[graphify-ts] graph.json:      ${graphPath}`);
-    console.log(`[graphify-ts] GRAPH_REPORT.md: ${reportPath}`);
+    console.log(`[graphify-ts] graph.json:        ${graphPath}`);
+    console.log(`[graphify-ts] GRAPH_REPORT.md:   ${reportPath}`);
+    console.log(`[graphify-ts] GRAPH_REPORT.html: ${reportHtmlPath}`);
 
     // 6. Benchmark: corpus tokens vs query tokens (auto-runs after every full build)
     const benchResult = benchmark(graph, files);

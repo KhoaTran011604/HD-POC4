@@ -11,7 +11,6 @@ Extracts AST relationships, clusters with Louvain, generates `GRAPH_REPORT.md`, 
 ```bash
 git clone <repo>
 cd graphify-ts
-npm install
 npm run build
 ```
 
@@ -75,11 +74,11 @@ collect → cache → extract (ts-morph AST) → build graph (graphology)
 
 All output lands in `graphify-ts-out/` inside the analysed project:
 
-| File | Description |
-|------|-------------|
+| File              | Description                                               |
+| ----------------- | --------------------------------------------------------- |
 | `GRAPH_REPORT.md` | God nodes, communities, surprising connections, benchmark |
-| `graph.json` | Serialised graphology graph (reused across queries) |
-| `extraction.json` | Raw AST extraction per file |
+| `graph.json`      | Serialised graphology graph (reused across queries)       |
+| `extraction.json` | Raw AST extraction per file                               |
 
 ---
 
@@ -87,14 +86,14 @@ All output lands in `graphify-ts-out/` inside the analysed project:
 
 > Numbers from running graphify-ts on **its own source** (self-analysis, 12 files):
 
-| Metric | Value |
-|--------|-------|
-| Corpus | 12 files → ~6,800 tokens (naive char/4) |
-| Graph | 47 nodes, 89 edges, 4 communities |
-| Avg query cost | ~420 tokens |
-| Reduction | **~16x** fewer tokens per focused query |
+| Metric         | Value                                   |
+| -------------- | --------------------------------------- |
+| Corpus         | 12 files → ~6,800 tokens (naive char/4) |
+| Graph          | 47 nodes, 89 edges, 4 communities       |
+| Avg query cost | ~420 tokens                             |
+| Reduction      | **~16x** fewer tokens per focused query |
 
-*Target for a 20+ file project: ≥ 10x reduction. Scales better with larger codebases.*
+_Target for a 20+ file project: ≥ 10x reduction. Scales better with larger codebases._
 
 ---
 
@@ -105,6 +104,7 @@ After `node dist/cli.js install`:
 ### Skill — `/graphify-ts`
 
 Type `/graphify-ts .` in a Claude Code session to:
+
 1. Build the graph for the current directory
 2. Get the god nodes and community structure
 3. Use `--query` for architecture questions instead of Glob/Grep
