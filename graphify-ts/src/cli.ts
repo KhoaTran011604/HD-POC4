@@ -10,6 +10,8 @@ import { buildGraph } from './build.js';
 import { analyzeBasic, surprisingConnections, suggestQuestions } from './analyze.js';
 import { cluster, buildCommunities } from './cluster.js';
 import { renderReport } from './report.js';
+import { query as queryGraph } from './query.js';
+import { benchmark, printBenchmark, appendBenchmark } from './benchmark.js';
 import type { ExtractionResult } from './types.js';
 
 const OUT_DIR = '../.graphify-ts-out';
@@ -21,7 +23,8 @@ program
   .description('TypeScript/JS code knowledge graph extractor')
   .argument('[path]', 'root directory to analyse', '.')
   .option('--no-cache', 'skip reading cache (forces re-extraction)')
-  .action(async (rootArg: string, opts: { cache: boolean }) => {
+  .option('-q, --query <question>', 'query the graph for focused context')
+  .action(async (rootArg: string, opts: { cache: boolean; query?: string }) => {
     const root = resolve(rootArg);
     console.log(`[graphify-ts] Scanning: ${root}`);
 
@@ -98,6 +101,21 @@ program
     console.log(`[graphify-ts] Graph: ${graph.order} nodes, ${graph.size} edges`);
     console.log(`[graphify-ts] graph.json:      ${graphPath}`);
     console.log(`[graphify-ts] GRAPH_REPORT.md: ${reportPath}`);
+
+    // 6. Benchmark: corpus tokens vs query tokens (auto-runs after every full build)
+    const benchResult = benchmark(graph, files);
+    appendBenchmark(reportPath, benchResult);
+    printBenchmark(benchResult);
+
+    // 7. Optional: --query → focused context block for LLM injection
+    if (opts.query) {
+      const qResult = queryGraph(opts.query, graph);
+      console.log('\n--- Graph Context ---');
+      console.log(qResult.contextBlock || '(no matching nodes found for query)');
+      console.log(
+        `\n(~${qResult.tokenEstimate.toLocaleString()} tokens vs ~${benchResult.corpusTokens.toLocaleString()} corpus tokens)`,
+      );
+    }
   });
 
 program.parse();

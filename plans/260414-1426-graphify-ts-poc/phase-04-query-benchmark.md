@@ -9,7 +9,7 @@
 ## Overview
 - **Date:** 2026-04-14
 - **Priority:** P1
-- **Status:** pending (blocked by Phase 03)
+- **Status:** complete
 - **Effort:** ~3h
 - **Goal:** `graphify-ts --query "how does auth work"` returns focused subgraph context; benchmark prints reduction ratio
 
@@ -206,13 +206,13 @@ Add to `report.ts` a `appendBenchmark(reportPath, result)` function that writes:
 ```
 
 ## Todo List
-- [ ] `query.ts` — BFS engine with term matching + token budget
-- [ ] `benchmark.ts` — corpus vs query token comparison
-- [ ] `printBenchmark()` — formatted console output
-- [ ] Wire `--query` flag into CLI
-- [ ] Auto-run benchmark after every full build
-- [ ] Append benchmark section to GRAPH_REPORT.md
-- [ ] Test on graphify source: verify reduction > 5x
+- [x] `query.ts` — BFS engine with term matching + token budget
+- [x] `benchmark.ts` — corpus vs query token comparison
+- [x] `printBenchmark()` — formatted console output
+- [x] Wire `--query` flag into CLI
+- [x] Auto-run benchmark after every full build
+- [x] Append benchmark section to GRAPH_REPORT.md
+- [x] Test on graphify source: verify reduction > 5x
 
 ## Success Criteria
 - `npx graphify-ts graphify/graphify --query "how does extraction work"` returns relevant nodes

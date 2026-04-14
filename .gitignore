@@ -9,3 +9,4 @@ graphify/
 .graphify-ts-out/
 
 */node_modules/*
+x-project/
