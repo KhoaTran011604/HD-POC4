@@ -4,7 +4,6 @@ export type NodeType = 'file' | 'class' | 'function' | 'method' | 'interface';
 
 export type EdgeRelation =
   | 'imports'        // file imports another file/module
-  | 'contains'       // file/class contains a function/method/class
   | 'method'         // class owns a method
   | 'calls'          // function calls another function
   | 'inherits'       // class extends another class

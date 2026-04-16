@@ -31,7 +31,7 @@ Graph is 88% noise: 76% edges are trivial `contains`, 67% files isolated (broken
 
 | # | Phase | Status | Effort | Files |
 |---|-------|--------|--------|-------|
-| 1 | [Remove contains edges](phase-01-remove-contains-edges.md) | pending | 20min | extract.ts, types.ts |
+| 1 | [Remove contains edges](phase-01-remove-contains-edges.md) | complete | 20min | extract.ts, types.ts |
 | 2 | [Drop per_file bloat](phase-02-drop-per-file-bloat.md) | pending | 10min | cli.ts |
 | 3 | [Resolve path-alias imports](phase-03-resolve-path-alias-imports.md) | pending | 1h | collect.ts, cli.ts, extract-helpers.ts |
 | 4 | [JSX component usage edges](phase-04-jsx-component-usage-edges.md) | pending | 1h | extract-helpers.ts, extract.ts, types.ts |

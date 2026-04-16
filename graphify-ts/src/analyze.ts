@@ -71,7 +71,7 @@ export interface SurprisingConnection {
   why: string;
 }
 
-const STRUCTURAL_RELATIONS = new Set(['imports', 'contains', 'method']);
+const STRUCTURAL_RELATIONS = new Set(['imports', 'method']);
 const MIN_INFERRED_FOR_QUESTION = 2;
 
 export function surprisingConnections(

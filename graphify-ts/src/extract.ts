@@ -39,7 +39,6 @@ export function extractFile(
     const id = makeId('interface', name, filePath, root);
     nodes.push({ id, label: name, type: 'interface', source_file: relPath, source_location: `L${iface.getStartLineNumber()}` });
     knownNodeIds.add(id);
-    edges.push({ source: srcId, target: id, relation: 'contains', confidence: 'EXTRACTED' });
   }
 
   // ── Classes ────────────────────────────────────────────────────────────────
@@ -49,7 +48,6 @@ export function extractFile(
     const clsId = makeId('class', clsName, filePath, root);
     nodes.push({ id: clsId, label: clsName, type: 'class', source_file: relPath, source_location: `L${cls.getStartLineNumber()}` });
     knownNodeIds.add(clsId);
-    edges.push({ source: srcId, target: clsId, relation: 'contains', confidence: 'EXTRACTED' });
 
     // Methods
     for (const method of cls.getMethods()) {
@@ -80,7 +78,6 @@ export function extractFile(
     const id = makeId('function', name, filePath, root);
     nodes.push({ id, label: name, type: 'function', source_file: relPath, source_location: `L${fn.getStartLineNumber()}` });
     knownNodeIds.add(id);
-    edges.push({ source: srcId, target: id, relation: 'contains', confidence: 'EXTRACTED' });
   }
 
   // ── Arrow / function-expression variables ──────────────────────────────────
@@ -89,7 +86,6 @@ export function extractFile(
     if (knownNodeIds.has(id)) continue; // already extracted as named fn
     nodes.push({ id, label: name, type: 'function', source_file: relPath, source_location: `L${line}` });
     knownNodeIds.add(id);
-    edges.push({ source: srcId, target: id, relation: 'contains', confidence: 'EXTRACTED' });
   }
 
   // ── Import edges ───────────────────────────────────────────────────────────

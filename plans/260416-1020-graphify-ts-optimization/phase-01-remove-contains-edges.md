@@ -6,7 +6,7 @@
 
 ## Overview
 - **Priority:** P1 (highest impact, lowest effort)
-- **Status:** pending
+- **Status:** complete
 - **Effort:** 20min
 - **Description:** Remove `contains` edges from graph. They represent "file X has symbol Y" — trivially derivable from `source_file` attribute on every node. They constitute 76% of all edges and pollute BFS traversal.
 
@@ -40,12 +40,12 @@
 4. Run `npx tsx graphify-ts/src/cli.ts .` and verify `contains` edges are gone
 
 ## Todo
-- [ ] Remove contains edge for interfaces in extract.ts
-- [ ] Remove contains edge for classes in extract.ts
-- [ ] Remove contains edge for functions in extract.ts
-- [ ] Remove contains edge for arrow functions in extract.ts
-- [ ] Remove 'contains' from EdgeRelation type
-- [ ] Validate: run CLI, confirm 0 contains edges in extraction.json
+- [x] Remove contains edge for interfaces in extract.ts
+- [x] Remove contains edge for classes in extract.ts
+- [x] Remove contains edge for functions in extract.ts
+- [x] Remove contains edge for arrow functions in extract.ts
+- [x] Remove 'contains' from EdgeRelation type
+- [x] Validate: run CLI, confirm 0 contains edges in extraction.json
 
 ## Success Criteria
 - Zero `contains` edges in extraction.json
